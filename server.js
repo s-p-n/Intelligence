@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 var user = {
-	logged_in: false;
+	logged_in: false
 };
 
 app.get('/', function (req, res) {
@@ -19,4 +19,4 @@ app.get('/assets/:type/:file', function (req, res) {
 	res.sendFile('./public/' + type + "/" + file);
 });
 
-app.listen(80);
+app.listen(8000);
