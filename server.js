@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 var user = {
-	logged_in: false;
+	logged_in: false
 };
 
 app.get('/', function (req, res) {
