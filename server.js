@@ -1,5 +1,4 @@
 var express = require('express');
-var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var app = express();
 var MongoClient = require('mongodb').MongoClient
@@ -69,11 +68,14 @@ function log () {
 }
 
 MongoClient.connect('mongodb://smartass:ssatrams@158.69.202.1:27017/intel', function(err, db) {
-
+	var main = {
+		app: app,
+		db: db,
+		log: log
+	}
 	if(err) throw err;
 
-    app.use(cookieParser());
-	route(app, db, log);
+	route(main);
 
 	app.listen(port);
 	log("\nServer Running on port", port);

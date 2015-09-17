@@ -1,6 +1,8 @@
-var bcrypt = require('bcrypt-nodejs');
 var sessions = {};
-module.exports = function (log) {
+module.exports = function (main) {
+	var log = main.log;
+	var bcrypt = main.bcrypt;
+
 	this.create = function (user) {
 		var salt = bcrypt.genSaltSync();
 		var current_date = (new Date()).valueOf().toString();

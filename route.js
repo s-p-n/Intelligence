@@ -1,27 +1,30 @@
 var bodyParser = require('body-parser');
-var User = require('./private/db/user.js');
+var cookieParser = require('cookie-parser');
+var Middleware = require('./private/middleware.js');
+var Post = require('./private/post.js');
 var Session = require ('./private/session.js');
-module.exports = function (app, db, log) {
-	var userAuth = new User(db, log);
-	var sess = new Session(log);
+var User = require('./private/db/user.js');
+var bcrypt = require('bcrypt-nodejs');
+
+module.exports = function (main) {
+	main.bcrypt = bcrypt;
+
+	var sess = new Session(main);
+	main.sess = sess;
+
+	var userAuth = new User(main);
+	main.userAuth = userAuth;
+
+	var mid = new Middleware(main);
+	var post = new Post(main);
+
+	var app = main.app;
+	var log = main.log;
+	
+	app.use(cookieParser());
 	app.use(bodyParser.urlencoded({ extended: true }));
-	app.use(function (req, res, next) {
-		var sess_id = req.cookies.session;
-
-		req.username = sess.get(sess_id);
-
-		if (req.username === void 0) {
-			if (req.path === '/login' || 
-				req.path.split('/')[1] === 'assets' ||
-				req.path === '/do/login') {
-				return next();
-			}
-			log('Redirecting to login..');
-			res.redirect('/login');
-			return;
-		}
-		next();
-	})
+	app.use(mid.isLoggedIn);
+	app.post('/do/login', post.doLogin);
 
 	app.get('/', function (req, res) {
 		log("\nSending index.html");
@@ -42,17 +45,5 @@ module.exports = function (app, db, log) {
 		res.sendFile(__dirname + '/public/assets/' + type + "/" + file);
 	});
 
-	app.post('/do/login', function (req, res) {
-		userAuth.validateLogin(req.body.username, req.body.password, function (err, result) {
-			if (err) {
-				log(err);
-			} else {
-				var id = sess.create(res);
-				res.cookie("session", id);
-				log(result);
-			}
-			res.redirect('/');
-		});
-	});
 
 }

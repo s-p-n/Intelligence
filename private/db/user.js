@@ -1,7 +1,11 @@
 var bcrypt = require('bcrypt-nodejs');
 
-function UsersDAO (db, log) {
+function UsersDAO (main) {
 	"use strict";
+
+	var db = main.db;
+	var log = main.log;
+	var bcrypt = main.bcrypt;
 
     /* If this constructor is called without the "new" operator, "this" points
      * to the global object. Log a warning and call it correctly. */
