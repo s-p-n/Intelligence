@@ -20,3 +20,8 @@ body {
 	min-height:550px;
 	background: rgba(238, 238, 238, 0.9);
 }
+
+form.login {
+	margin: 0px auto;
+	max-width: 250px;
+}

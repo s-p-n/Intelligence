@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
-var debugging = false;
+var MongoClient = require('mongodb').MongoClient
+var route = require('./route.js');
+
+var debugging = true;
 
 function log () {
 	if (!debugging) {
@@ -10,26 +13,12 @@ function log () {
 	console.log.apply(this, arguments);
 }
 
-var user = {
-	logged_in: false
-};
+MongoClient.connect('mongodb://127.0.0.1:27017/intel', function(err, db) {
 
-app.get('/', function (req, res) {
-	if (user.logged_in) {
-		console.log("Strange..");
-	} else {
-		res.sendFile(__dirname + '/public/login.html')
-	}
+	if(err) throw err;
+
+	route(app, db, log);
+	log("Server Running.");
+
+	app.listen(8000);
 });
-
-app.get('/assets/:type/:file', function (req, res) {
-	var type = req.params.type;
-	var file = req.params.file;
-	log("Type:", type);
-	log("File:", file);
-	res.sendFile(__dirname + '/public/assets/' + type + "/" + file);
-});
-
-log("Server Running.");
-
-app.listen(8000);
