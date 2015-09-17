@@ -1,4 +1,5 @@
 var express = require('express');
+var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var app = express();
 var MongoClient = require('mongodb').MongoClient
@@ -67,10 +68,11 @@ function log () {
 	console.log(data);
 }
 
-MongoClient.connect('mongodb://158.69.202.1:27017/intel', function(err, db) {
+MongoClient.connect('mongodb://smartass:ssatrams@158.69.202.1:27017/intel', function(err, db) {
 
 	if(err) throw err;
 
+    app.use(cookieParser());
 	route(app, db, log);
 
 	app.listen(port);
@@ -80,7 +82,7 @@ MongoClient.connect('mongodb://158.69.202.1:27017/intel', function(err, db) {
 
 /** Handle exits: **/
 
-process.stdin.resume();
+//process.stdin.resume();
 
 function exitHandler (arg) {
 	log("Shutting down..", arg);
@@ -92,7 +94,7 @@ function errorHandler (err) {
 	fs.appendFileSync(errFile, JSON.stringify(err));
 }
 
-process.on('exit', exitHandler);
-process.on('SIGINT', exitHandler);
+//process.on('exit', exitHandler);
+//process.on('SIGINT', exitHandler);
 //process.on('SIGKILL', exitHandler);
-process.on('uncaughtException', errorHandler);
+//process.on('uncaughtException', errorHandler);
