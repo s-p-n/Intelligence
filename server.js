@@ -8,6 +8,14 @@ var debugging = true;
 var logFile = './data/nodeLog';
 var errFile = './data/nodeErr';
 var port = 8000;
+var dbCreds = require('./data/creds.json');
+
+var dbURL = 'mongodb://' +
+			dbCreds.user + ':' +
+			dbCreds.pass + '@' +
+			dbCreds.host + ':' +
+			dbCreds.port + '/' +
+			dbCreds.db;
 
 (function () {
 	var requireVal = false;
@@ -67,7 +75,7 @@ function log () {
 	console.log(data);
 }
 
-MongoClient.connect('mongodb://smartass:ssatrams@158.69.202.1:27017/intel', function(err, db) {
+MongoClient.connect(dbURL, function(err, db) {
 	var main = {
 		app: app,
 		db: db,
