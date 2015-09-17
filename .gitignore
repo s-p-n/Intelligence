@@ -8,4 +8,7 @@
 .Trash-*
 
 # Ignore the database
-data/
+!data/
+data/*
+!data/db
+data/db/*
