@@ -2,4 +2,6 @@
 pkill node
 
 # Start the server
-node ./server.js &
+node ./server.js "$@" &
+echo ""
+exit 0
