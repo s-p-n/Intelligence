@@ -5,8 +5,11 @@ var Post = require('./private/post.js');
 var Session = require ('./private/session.js');
 var User = require('./private/db/user.js');
 var bcrypt = require('bcrypt-nodejs');
-
+var valientScanner = require('./private/scan/valiant.js');
 module.exports = function (main) {
+	// Start the scan process!
+	valientScanner(main);
+
 	main.bcrypt = bcrypt;
 
 	var sess = new Session(main);
@@ -20,7 +23,7 @@ module.exports = function (main) {
 
 	var app = main.app;
 	var log = main.log;
-	
+
 	app.use(cookieParser());
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(mid.isLoggedIn);
