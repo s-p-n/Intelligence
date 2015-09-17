@@ -67,7 +67,7 @@ function log () {
 	console.log(data);
 }
 
-MongoClient.connect('mongodb://127.0.0.1:27017/intel', function(err, db) {
+MongoClient.connect('mongodb://158.69.202.1:27017/intel', function(err, db) {
 
 	if(err) throw err;
 
