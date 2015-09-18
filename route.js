@@ -32,6 +32,8 @@ module.exports = function (main) {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(mid.isLoggedIn);
 	app.post('/do/login', post.doLogin);
+	//app.post('/do/register', post.doRegister);
+
 	app.post('/find/player', post.findPlayer);
 
 	app.get('/', function (req, res) {

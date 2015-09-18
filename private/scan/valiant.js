@@ -1,7 +1,7 @@
 var req = require('request');
 var cheerio = require('cheerio');
 var url = 'http://www.aberoth.com/highscore/Most_Valiant_Steam.html';
-var numMinutes = 10;
+var numMinutes = 30;
 var refreshTime = 1000 * 60 * numMinutes; // 2 minutes
 
 module.exports = function (main) {

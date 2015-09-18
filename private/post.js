@@ -18,6 +18,17 @@ module.exports = function Post (main) {
 		});
 	};
 
+	this.doRegister = function (req, res) {
+		userAuth.addUser(req.body.username, req.body.password, function (err, result) {
+			if (err) {
+				log(err);
+			} else {
+				log(result);
+			}
+			res.redirect('/');
+		});
+	};
+
 	this.findPlayer = function (req, res) {
 		var player = req.body.player.toLowerCase();
 		player = player[0].toUpperCase() + player.substr(1);
