@@ -1,5 +1,3 @@
-var bcrypt = require('bcrypt-nodejs');
-
 function UsersDAO (main) {
 	"use strict";
 

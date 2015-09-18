@@ -4,6 +4,7 @@ var Middleware = require('./private/middleware.js');
 var Post = require('./private/post.js');
 var Session = require ('./private/session.js');
 var User = require('./private/db/user.js');
+var Players = require('./private/db/player.js');
 var bcrypt = require('bcrypt-nodejs');
 var valientScanner = require('./private/scan/valiant.js');
 module.exports = function (main) {
@@ -18,6 +19,9 @@ module.exports = function (main) {
 	var userAuth = new User(main);
 	main.userAuth = userAuth;
 
+	var players = new Players(main);
+	main.players = players;
+
 	var mid = new Middleware(main);
 	var post = new Post(main);
 
@@ -28,6 +32,7 @@ module.exports = function (main) {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(mid.isLoggedIn);
 	app.post('/do/login', post.doLogin);
+	app.post('/find/player', post.findPlayer);
 
 	app.get('/', function (req, res) {
 		log("\nSending index.html");
@@ -48,5 +53,11 @@ module.exports = function (main) {
 		res.sendFile(__dirname + '/public/assets/' + type + "/" + file);
 	});
 
-
+	app.get('/query', function (req, res) {
+		if (req.session && req.session.queryResult) {
+			res.send("var queryResult = " + JSON.stringify(req.session.queryResult));
+		} else {
+			res.send("var queryResult = {}");
+		}
+	})
 }

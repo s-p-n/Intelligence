@@ -5,9 +5,9 @@ module.exports = function Middleware(main) {
 	this.isLoggedIn = function (req, res, next) {
 		var sess_id = req.cookies.session;
 
-		req.username = sess.get(sess_id);
+		req.session = sess.get(sess_id);
 
-		if (req.username === void 0) {
+		if (req.session === void 0) {
 			if (req.path === '/login' || 
 				req.path.split('/')[1] === 'assets' ||
 				req.path === '/do/login') {

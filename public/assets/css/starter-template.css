@@ -25,3 +25,7 @@ form.login {
 	margin: 0px auto;
 	max-width: 250px;
 }
+
+pre {
+  text-align: left;
+}

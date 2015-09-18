@@ -40,15 +40,16 @@ module.exports = function (main) {
 						return;
 					}
 				}
-				savePlayer(name, killed, rank, timeRange);
+				savePlayer(name, killed, rank, timeRange, lastFetch[name].online);
 			});
 		});
 	}
 		
 	
-	function savePlayer (name, killed, rank, timeRange) {
+	function savePlayer (name, killed, rank, timeRange, online) {
 		var updateObj = {'$set': {
 			_id: name,
+			online: online,
 			valiant: {killed: killed, rank: rank}
 		}};
 		if (timeRange) {
