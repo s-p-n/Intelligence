@@ -36,6 +36,10 @@ module.exports = function Post (main) {
 		players.getPlayer(player, function (err, result) {
 			if (err) throw err;
 			console.log(result);
+			if (result === null) {
+				res.redirect('/');
+				return;
+			}
 			if (result.timeRange) {
 				var i;
 				for (i = 0; i < result.timeRange.length; i += 1) {
